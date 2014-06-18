@@ -2,6 +2,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
+import java.util.TreeSet;
 import java.io.*;
 /**
  * PQS 2014 Summer class<p>
@@ -25,11 +27,12 @@ public class AddressBook {
 		return entrySet.add(new AddressBookEntry(name, postalAddress, phoneNumber, emailAddress, note));
 	}
 	/**
-	 * Remove entry from this AddressBook
-	 * @param entry the entry to be removed
+	 * Remove specific element from this AddressBook if it is present
+	 * @param entry element to be removed from this AddressBook, if present
+	 * @return true if entrySet contained the specific element
 	 */
-	public void remove(AddressBookEntry entry){
-		entrySet.remove(entry);
+	public boolean remove(AddressBookEntry entry){
+		return entrySet.remove(entry);
 	}
 	/**
 	 * This method check if the keyword is contained in any field of each entry.
@@ -47,7 +50,12 @@ public class AddressBook {
 		}
 		return result;
 	}
-	
+	/**
+	 * Saves the whole address book to a text based file 
+	 * The first line is the size of the address book and 
+	 * followed by size x (number of fields in an entry) lines
+	 * @param fileName the name of the file that the address will be stored into
+	 */
 	public void save(String fileName){
 		try {
 			PrintWriter writer = new PrintWriter(fileName, "UTF-8");
@@ -66,8 +74,9 @@ public class AddressBook {
 		}
 	}
 	/**
-	 * Reads AddressBook from a text file, first line of the file should be <p>
-	 * the size of AddressBook and each line is one field.
+	 * Reads AddressBook from a text file, first line of the file should be 
+	 * the size of AddressBook and followed by (size of the addressBook) x 
+	 * (number of fields per entry) lines.
 	 * @param fileName FileName to read from.
 	 * @return 
 	 */
@@ -80,18 +89,19 @@ public class AddressBook {
 				addressBook.addEntry(fin.nextLine(), fin.nextLine()
 						, fin.nextLine(), fin.nextLine(), fin.nextLine());
 			}
+			fin.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		
-		
-		
 		return addressBook;
 	}
 	
-	
+	public static void test(){
+		Set<Double> a = new TreeSet<Double>();
+		a.add(1.2);
+	}
 	
 	
 	
