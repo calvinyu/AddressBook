@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -6,9 +5,12 @@ public class AddressBookTest {
 
 	public static void main(String[] args) {
 		AddressBook myBook = AddressBook.readAddressBookFromFile("myBook.txt");
-		//myBook.addEntry("name", "postalAddress", "phoneNumber", "emailAddress", "note");
-		//myBook.addEntry("Calvin", "11374 6507 Booth ST", "34782822458", "ycy247@nyu.edu", "this is real");
-		List<AddressBookEntry> result = myBook.search("John");
+//		myBook.addEntry(new AddressBookEntry.Builder("Brian", "postalAddress").
+//				phoneNumber("phoneNumber").emailAddress("emailAddress").note("note").build());
+//		myBook.addEntry(new AddressBookEntry.Builder("Calvin", "6507 Booth St, Rego Park, NY 11374").
+//				phoneNumber("3478282458").emailAddress("ycy247@nyu.edu").note("Fake contact").build());
+		myBook.save("myBook.txt");
+		List<AddressBookEntry> result = myBook.search("Calvin");
 		for(AddressBookEntry entry: result){
 			myBook.remove(entry);
 		}

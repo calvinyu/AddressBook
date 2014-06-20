@@ -22,9 +22,8 @@ public class AddressBook {
 		entrySet = new HashSet<AddressBookEntry>();
 		System.out.println("Address Book Created.");
 	}
-	public boolean addEntry(String name, String postalAddress, String phoneNumber, 
-			String emailAddress, String note){
-		return entrySet.add(new AddressBookEntry(name, postalAddress, phoneNumber, emailAddress, note));
+	public boolean addEntry(AddressBookEntry entry){
+		return entrySet.add(entry);
 	}
 	/**
 	 * Remove specific element from this AddressBook if it is present
@@ -42,9 +41,7 @@ public class AddressBook {
 	public List<AddressBookEntry> search(String keyword){
 		List<AddressBookEntry> result = new ArrayList<AddressBookEntry>();
 		for(AddressBookEntry entry: entrySet){
-			if(entry.getName().contains(keyword) || entry.getPostalAddress().contains(keyword) ||
-			entry.getPhoneNumber().contains(keyword) || entry.getEmailAddress().contains(keyword) ||
-			entry.getNote().contains(keyword) ){
+			if(entry.contains(keyword)){
 				result.add(entry);
 			}
 		}
@@ -61,11 +58,7 @@ public class AddressBook {
 			PrintWriter writer = new PrintWriter(fileName, "UTF-8");
 			writer.println(entrySet.size());
 			for(AddressBookEntry entry: entrySet){
-				writer.println(entry.getName());
-				writer.println(entry.getPostalAddress());
-				writer.println(entry.getPhoneNumber());
-				writer.println(entry.getEmailAddress());
-				writer.println(entry.getNote());
+				writer.print(entry.toFileFormat());
 			}
 			writer.close();
 		} catch (FileNotFoundException | UnsupportedEncodingException e) {
@@ -81,29 +74,34 @@ public class AddressBook {
 	 * @return 
 	 */
 	public static AddressBook readAddressBookFromFile(String fileName){
+		String name;
+		String postalAddress;
+		String phoneNumber;
+		String emailAddress;
+		String note;
 		AddressBook addressBook = new AddressBook();
 		try {
 			Scanner fin = new Scanner(new FileReader(fileName));
 			int size = Integer.parseInt(fin.nextLine());
 			while(size-->0){
-				addressBook.addEntry(fin.nextLine(), fin.nextLine()
-						, fin.nextLine(), fin.nextLine(), fin.nextLine());
+				name = fin.nextLine();
+				postalAddress = fin.nextLine();
+				phoneNumber = fin.nextLine();
+				emailAddress = fin.nextLine();
+				note = fin.nextLine();
+				AddressBookEntry entry = 
+						new AddressBookEntry.Builder(name, postalAddress).
+						emailAddress(emailAddress).phoneNumber(phoneNumber).
+						note(note).build();
+				addressBook.addEntry(entry);
 			}
 			fin.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 		return addressBook;
 	}
-	
-	public static void test(){
-		Set<Double> a = new TreeSet<Double>();
-		a.add(1.2);
-	}
-	
-	
 	
 	
 	
